@@ -1,0 +1,75 @@
+# The annotated map file (sort of)
+# Created by Pericles S. Nacionales for the MapServer tutorial
+# 2005-04-08
+# Maintained & enhanced since by Jeff McKenna, Gateway Geomatics
+# 2020-03-10 last updated
+#
+# MapServer map file uses the pound sign (#) to denote the start of a line
+# comment--each line that needs to be commented has to be prepended with a "#".
+#
+# Map files begin with MAP keyword to signify the start of the map object.
+# Well, the entire map file is THE map object.  Enclosed between MAP and END
+# at the very bottom of this map file, are keyword/value pairs and other
+# objects.
+MAP
+  NAME           "Mapserver StackMap"
+  #IMAGETYPE      PNG24
+  IMAGETYPE      PNG
+  EXTENT         -60 50 20 90
+  MAXSIZE        6000
+  #EXTENT        166221 -371954 1505849 632767 # LAEA
+  #EXTENT         -97.5 41.619778 -82.122902 49.38562 # Geographic
+  SIZE           400 300
+  SHAPEPATH      "/data/"
+  #SHAPEPATH      "../data"
+  #SYMBOLSET      "../symbols/symbols.txt"
+  #FONTSET        "../fonts/fonts.txt"
+
+  # The web object is defined at the level below the map object.  All
+  # web-related parameters (I interchange "parameters" and "keyword/value
+  # pairs" quite frequently, sorry about that) are defined in this object.
+  WEB
+    TEMPLATE  'example1-9.html'
+    IMAGEPATH '/tmp/'
+    IMAGEURL  '/ms_tmp/'
+    METADATA 
+      WMS_ENABLE_REQUEST "*" 
+    END
+  END
+
+  # The projection object is typically used within the map and the layer
+  # objects. You only define it once within the map object and this definition
+  # becomes your output projection--MapServer will render your maps in this
+  # projection.  You also use the projection object within the layer object to 
+  # define your input projection.  Your layers can be in different
+  # projections--MapServer will reproject them into your output projection.  
+  # If no projection is defined within the layer object, MapServer assumes 
+  # your input projection is the same as your output projection.  This is not 
+  # a required object unless you're creating a map file that supports one of 
+  # the OGC interoperability web services specifications (WMS/WFS/WCS).
+  #
+  # This is the output PROJECTION definition ------
+  PROJECTION
+    # Projection parameters can be defined in two ways...
+    # This is the traditional PROJ definition of Lambert Azimuthal Equal-Area
+    # projection for the Continental U.S.
+    #  "proj=laea"
+    #  "ellps=clrk66"
+    #  "lat_0=45"
+    #  "lon_0=-100"
+    #
+    # Alternatively, you can specify an EPSG code.
+    # This is the EPSG code for Lambert Azimuthal Equal-Area
+    # projection for the U.S.
+    #"init=epsg:2163"
+    #"init=epsg:4326"
+     "init=epsg:3857"
+  END
+  
+  INCLUDE "products.map"
+
+  #INCLUDE "GSHHS.map"
+  # End of LAYER DEFINITIONS -------------------------------
+
+END # All map files must come to an end just as all other things must come to...
+# End of section 1 !
